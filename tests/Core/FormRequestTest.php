@@ -27,27 +27,6 @@ class FormRequestTest extends TestCase
         $this->assertEquals(['name' => 'something'], $request->validated());
     }
 
-    /**
-     * @expectedException \Illuminate\Validation\ValidationException
-     */
-    public function testValidateThrowsWhenValidationFails()
-    {
-        $request = $this->createRequest(['no' => 'name']);
-
-        $this->mocks['redirect']->expects($this->any())->method('withInput');
-        $this->mocks['redirect']->expects($this->any())->method('withErrors');
-
-        $request->validateResolved();
-    }
-
-    /**
-     * @expectedException \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function testValidateMethodThrowsWhenAuthorizationFails()
-    {
-        $this->createRequest([], CoreTestFormRequestForbiddenStub::class)->validateResolved();
-    }
-
     public function testPrepareForValidationRunsBeforeValidation()
     {
         $request = $this->createRequest([], CoreTestFormRequestHooks::class);

@@ -39,7 +39,7 @@ class ExceptionHandlerTest extends TestCase
      */
     protected $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = Container::setInstance(new Container());
 
@@ -106,11 +106,11 @@ class ExceptionHandlerTest extends TestCase
             new \Exception('Custom error message')
         )->getContent();
 
-        $this->assertNotContains('<!DOCTYPE html>', $response);
-        $this->assertContains('"message": "Custom error message"', $response);
-        $this->assertContains('"file":', $response);
-        $this->assertContains('"line":', $response);
-        $this->assertContains('"trace":', $response);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $response);
+        $this->assertStringContainsString('"message": "Custom error message"', $response);
+        $this->assertStringContainsString('"file":', $response);
+        $this->assertStringContainsString('"line":', $response);
+        $this->assertStringContainsString('"trace":', $response);
     }
 
     public function testReturnsCustomResponseWhenExceptionImplementResponsable()
@@ -133,12 +133,12 @@ class ExceptionHandlerTest extends TestCase
             new \Exception('This error message should not be visible')
         )->getContent();
 
-        $this->assertContains('"message": "Server Error"', $response);
-        $this->assertNotContains('<!DOCTYPE html>', $response);
-        $this->assertNotContains('This error message should not be visible', $response);
-        $this->assertNotContains('"file":', $response);
-        $this->assertNotContains('"line":', $response);
-        $this->assertNotContains('"trace":', $response);
+        $this->assertStringContainsString('"message": "Server Error"', $response);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $response);
+        $this->assertStringNotContainsString('This error message should not be visible', $response);
+        $this->assertStringNotContainsString('"file":', $response);
+        $this->assertStringNotContainsString('"line":', $response);
+        $this->assertStringNotContainsString('"trace":', $response);
     }
 
     public function testReturnsJsonWithoutStackTraceWhenAjaxRequestAndDebugFalseAndHttpExceptionIsShown()
@@ -157,12 +157,12 @@ class ExceptionHandlerTest extends TestCase
             )
         )->getContent();
 
-        $this->assertContains('"message": "Custom error message"', $response);
-        $this->assertNotContains('<!DOCTYPE html>', $response);
-        $this->assertNotContains('"message": "Server Error"', $response);
-        $this->assertNotContains('"file":', $response);
-        $this->assertNotContains('"line":', $response);
-        $this->assertNotContains('"trace":', $response);
+        $this->assertStringContainsString('"message": "Custom error message"', $response);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $response);
+        $this->assertStringNotContainsString('"message": "Server Error"', $response);
+        $this->assertStringNotContainsString('"file":', $response);
+        $this->assertStringNotContainsString('"line":', $response);
+        $this->assertStringNotContainsString('"trace":', $response);
     }
 
     public function testReturnsJsonWithoutStackTraceWhenAjaxRequestAndDebugFalseAndAccessDeniedHttpExceptionErrorIsShown()
@@ -178,12 +178,12 @@ class ExceptionHandlerTest extends TestCase
             new AccessDeniedHttpException('Custom error message')
         )->getContent();
 
-        $this->assertContains('"message": "Custom error message"', $response);
-        $this->assertNotContains('<!DOCTYPE html>', $response);
-        $this->assertNotContains('"message": "Server Error"', $response);
-        $this->assertNotContains('"file":', $response);
-        $this->assertNotContains('"line":', $response);
-        $this->assertNotContains('"trace":', $response);
+        $this->assertStringContainsString('"message": "Custom error message"', $response);
+        $this->assertStringNotContainsString('<!DOCTYPE html>', $response);
+        $this->assertStringNotContainsString('"message": "Server Error"', $response);
+        $this->assertStringNotContainsString('"file":', $response);
+        $this->assertStringNotContainsString('"line":', $response);
+        $this->assertStringNotContainsString('"trace":', $response);
     }
 
     public function testValidateFileMethod()
